@@ -117,10 +117,7 @@ void setup() {
   projecteur.creerProjecteur();
   formes.add(projecteur);
 
-  PImage bois = loadImage("whitewood.png");
-  int couleurStructure = color(255, 215, 0); // Jaune
-  BureauEtudiant bureau = new BureauEtudiant(0, 0, 0, 160, 80, 76, bois, couleurStructure);
-  formes.add(bureau);
+
 
   // Initialiser la caméra dans le coin supérieur gauche près du plafond
   camX = -largeurSalle / 2;
