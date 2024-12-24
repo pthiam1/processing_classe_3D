@@ -23,7 +23,7 @@ Le projet s'inscrit dans le cadre du Master Informatique M1 à l'Université du 
 ## **Aperçu**
 - Voici un aperçu de la salle de classe informatique en 3D modélisée avec Processing :
 
-![img_1.png](img_1.png)
+![img_1.png](M1.png)
 
 ## **Auteurs**
 - [THIAM PAPA](https://www.linkedin.com/in/papa-thiam-b914991b7/)

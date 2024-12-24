@@ -34,8 +34,8 @@ PImage murTexture, plafondTexture, solTexture;
 
 
 void setup() {
-  // fullScreen(P3D);
-
+  fullScreen(P3D);
+  // background(255);
   size(1000, 800, P3D);
   PShader colorShader = loadShader("resources/LightShaderTexFrag.glsl", "resources/LightShaderTexVert.glsl");
 
@@ -118,7 +118,33 @@ void setup() {
   formes.add(projecteur);
 
 
+  // Créer  bureau étudiant
+  PImage textureBureau = loadImage("resources/whitewood.png");
+  PImage textureEcran = loadImage("resources/screen_ubuntu.png");
+  PImage textureChaise = loadImage("resources/wood.jpg");
+  PImage textureSouris = loadImage("resources/souris.png");
+  PImage textureClavier = loadImage("resources/keyboard.png");
+  PImage textureUC = loadImage("resources/tour.jpg");
 
+
+// Créer un bureau étudiant au sol
+  // BureauEtudiant bureauEtudiant = new BureauEtudiant(-largeurSalle / 2 + 1800, -hauteurSalle / 2 + 550, -profondeurSalle / 2 + 1000);
+  // bureauEtudiant.creerBureauEtudiant(500, 300, 300, textureBureau, textureEcran, textureChaise, textureSouris, textureClavier, textureUC, color(255, 255, 0));
+  // formes.add(bureauEtudiant);
+  
+  for (int i = 0; i < 4  ; i++) {
+    for (int j = 0; j < 3; j++) {
+      //pas espace entre les bureaux
+      float x = -largeurSalle / 2 + 1800 - i * 400;
+      float y = -hauteurSalle / 2 + 550;
+      float z = -profondeurSalle / 2 + 1000 + j * 600;
+      BureauEtudiant bureauEtudiant = new BureauEtudiant(x, y, z);
+      bureauEtudiant.creerBureauEtudiant(450, 300, 300, textureBureau, textureEcran, textureChaise, textureSouris, textureClavier, textureUC, color(255, 255, 0));
+      formes.add(bureauEtudiant);
+    }
+  }
+
+  
   // Initialiser la caméra dans le coin supérieur gauche près du plafond
   camX = -largeurSalle / 2;
   camY = -hauteurSalle / 2;
@@ -129,6 +155,7 @@ void setup() {
   phi = atan2(camY, sqrt(camX * camX + camZ * camZ));
 
 }
+
 
 void draw() {
   background(255);
@@ -178,6 +205,13 @@ void keyPressed() {
       }
     }
   
+  }
+  if (key == 'c') {
+    for (QShape forme : formes) {
+      if (forme instanceof BureauEtudiant) {
+        ((BureauEtudiant) forme).ouvrirFermerCoffre();
+      }
+    }
   }
   // Ouvrir ou fermer la toile de projecteur
   if (key == 'p' || key == 'P') {
