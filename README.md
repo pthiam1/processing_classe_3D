@@ -25,5 +25,6 @@ Le projet s'inscrit dans le cadre du Master Informatique M1 à l'Université du 
 
 ![img_1.png](M1.png)
 
+![alt text](M1_1.png) ![alt text](M2.png)
 ## **Auteurs**
 - [THIAM PAPA](https://www.linkedin.com/in/papa-thiam-b914991b7/)

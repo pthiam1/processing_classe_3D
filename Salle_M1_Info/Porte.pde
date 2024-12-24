@@ -1,7 +1,7 @@
 class Porte extends QShape {
-  final float LARGEUR_PORTE = 250;
-  final float HAUTEUR_PORTE = 500;
-  final float EPAISSEUR_PORTE = 5;
+  final float LARGEUR_PORTE = 350;
+  final float HAUTEUR_PORTE = 650;
+  final float EPAISSEUR_PORTE = 10;
   
 
   Porte(float x, float y, float z) {
@@ -19,7 +19,7 @@ class Porte extends QShape {
 
     // Ajustement pour le point de rotation
     if (isLaterale) {
-        panneauPorte.translate(-LARGEUR_PORTE / 2, 0, 0); // Déplacer le panneau pour aligner le pivot au bord gauche
+        panneauPorte.translate(-LARGEUR_PORTE / 20, 0, 0); // Déplacer le panneau pour aligner le pivot au bord gauche
     }
 
     shape.addChild(panneauPorte);
@@ -45,7 +45,7 @@ class Porte extends QShape {
     // Clanche (poignée)
     PShape clanche = createShape(BOX, 10, 2, 20);
     if (isLaterale) {
-        clanche.translate(-LARGEUR_PORTE / 2 + 10, -50, (EPAISSEUR_PORTE / 2) + 5);
+        clanche.translate((LARGEUR_PORTE / 2) + 10, -50, -(EPAISSEUR_PORTE / 2) - 5);
     } else {
         clanche.translate((LARGEUR_PORTE / 2) - 10, -50, (EPAISSEUR_PORTE / 2) + 5);
     }

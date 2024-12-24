@@ -34,8 +34,8 @@ PImage murTexture, plafondTexture, solTexture;
 
 
 void setup() {
-  fullScreen(P3D);
-  // background(255);
+  // fullScreen(P3D);
+  background(255);
   size(1000, 800, P3D);
   PShader colorShader = loadShader("resources/LightShaderTexFrag.glsl", "resources/LightShaderTexVert.glsl");
 
@@ -55,20 +55,20 @@ void setup() {
   formes.add(tableau);
 
  // Créer les portes
-  PImage porteTexture = loadImage("resources/metal.jpg");
+  PImage porteTexture = loadImage("resources/porte.png");
 
   // Porte arrière
-  Porte porteAvant = new Porte(-800, -(hauteurSalle / 2 - 550), profondeurSalle / 2);
+  Porte porteAvant = new Porte(-800, -(hauteurSalle / 2 - 450), profondeurSalle / 2);
   porteAvant.creerPorte(porteTexture, color(0, 0, 255), color(255, 255, 0), false);
   formes.add(porteAvant);
   
   // Porte avant
-  Porte porteArriere = new Porte(-800, -(hauteurSalle / 2 - 550), -profondeurSalle / 2);
+  Porte porteArriere = new Porte(-800, -(hauteurSalle / 2 - 450), -profondeurSalle / 2);
   porteArriere.creerPorte(porteTexture, color(0, 0, 255), color(255, 255, 0) , false);
   formes.add(porteArriere);
  
 //porte droite
-  Porte porteDroite = new Porte(largeurSalle / 2 , -(hauteurSalle / 2 - 550), -profondeurSalle / 2 + 550);
+  Porte porteDroite = new Porte(largeurSalle / 2 , -(hauteurSalle / 2 - 450), -profondeurSalle / 2 + 550);
   porteDroite.creerPorte(porteTexture, color(0, 0, 255), color(255, 255, 0), true);
   formes.add(porteDroite);
 
@@ -91,12 +91,12 @@ void setup() {
   PImage radiateurTexture = loadImage("resources/radiateur.png");
 
   // Créer deux radiateurs sur le mur gauche
-  Radiateur radiateur1 = new Radiateur(-largeurSalle / 2 + 50, -hauteurSalle / 2 + 700, -profondeurSalle / 2 + 500);
+  Radiateur radiateur1 = new Radiateur(-largeurSalle / 2 + 50, -hauteurSalle / 2 + 650, -profondeurSalle / 2 + 500);
   radiateur1.creerRadiateur(400, 200, 20, radiateurTexture);
   radiateur1.positionnerRadiateur(-largeurSalle / 2 + 900, -hauteurSalle / 2 + 400, 0);
   formes.add(radiateur1);
 
-  Radiateur radiateur2 = new Radiateur(-largeurSalle / 2 + 50, -hauteurSalle / 2 + 700, profondeurSalle / 2 - 500);
+  Radiateur radiateur2 = new Radiateur(-largeurSalle / 2 + 50, -hauteurSalle / 2 + 650, profondeurSalle / 2 - 500);
   radiateur2.creerRadiateur(400, 200, 20, radiateurTexture);
   radiateur2.positionnerRadiateur(-largeurSalle / 2 + 900, -hauteurSalle / 2 + 400, 0);
   formes.add(radiateur2);
@@ -123,7 +123,7 @@ void setup() {
   PImage textureEcran = loadImage("resources/screen_ubuntu.png");
   PImage textureChaise = loadImage("resources/wood.jpg");
   PImage textureSouris = loadImage("resources/souris.png");
-  PImage textureClavier = loadImage("resources/keyboard.png");
+  PImage textureClavier = loadImage("resources/keyboard.jpg");
   PImage textureUC = loadImage("resources/tour.jpg");
 
 
