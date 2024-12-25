@@ -170,12 +170,7 @@ void draw() {
     translate(forme.x, forme.y, forme.z);
     forme.drawShape();
     popMatrix();
-    
-    if (forme instanceof ToileProjecteur) {
-      ((ToileProjecteur) forme).mettreAJour();
-    }
   }
-  
 }
 
 
@@ -198,15 +193,15 @@ void mouseWheel(MouseEvent event) {
 
 //ouvrir la porte
 void keyPressed() {
-  if (key == 'o') {
+  if (key == 'o' || key == 'O') {
     for (QShape forme : formes) {
       if (forme instanceof Porte) {
-        ((Porte) forme).ouvrir();
+        ((Porte) forme).ouvrirFermerPorte();
       }
     }
   
   }
-  if (key == 'c') {
+  if (key == 'c' || key == 'C') {
     for (QShape forme : formes) {
       if (forme instanceof BureauEtudiant) {
         ((BureauEtudiant) forme).ouvrirFermerCoffre();
@@ -218,12 +213,7 @@ void keyPressed() {
     for (QShape forme : formes) {
       if (forme instanceof ToileProjecteur) {
         ToileProjecteur toileProjecteur = (ToileProjecteur) forme;
-        
-        if (toileProjecteur.estDeroulee) {
-          toileProjecteur.refermer(); // Ferme la toile
-        } else {
-          toileProjecteur.derouler(); // Ouvre la toile
-        }
+        toileProjecteur.allumerEteindreProjecteur();
       }
     }
   }

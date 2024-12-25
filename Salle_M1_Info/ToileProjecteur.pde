@@ -95,50 +95,26 @@ class ToileProjecteur extends QShape {
     toile.endShape(CLOSE);
   }
 
-  private void mettreAJourToile() {
-        shape = createShape();
-        shape.beginShape(QUADS);
-        shape.texture(texture);
-        shape.noStroke();
+//allumer projecteur (crer un rectangle meme dimension que la toile avec une marge de 10)
+  void allumerEteindreProjecteur(){
+    print("Allumer/Eteindre projecteur\n");
+    estDeroulee = !estDeroulee;
 
-        // Barre en haut
-        shape.addChild(barreHaut);
+    if (estDeroulee) {
+        float marge = 50;  
 
-        // La hauteur actuelle contrôle la taille visible de la toile
-        shape.vertex(-largeur / 2, -hauteur / 2 + hauteurActuelle, -profondeur / 2, 0, 0);
-        shape.vertex(largeur / 2, -hauteur / 2 + hauteurActuelle, -profondeur / 2, texture.width, 0);
-        shape.vertex(largeur / 2, -hauteur / 2 + hauteur, profondeur / 2, texture.width, texture.height);
-        shape.vertex(-largeur / 2, -hauteur / 2 + hauteur, profondeur / 2, 0, texture.height);
+        float largeurProjecteur = largeur - 2 * marge;
+        float hauteurProjecteur = hauteur - 2 * marge;
 
-        // Barre en bas
-        shape.addChild(barreBas);
-
-      
-        shape.endShape();
+        // Créer le projecteur
+        PShape projecteur = createShape(BOX, largeurProjecteur, hauteurProjecteur, 10);
+        projecteur.setTexture(texture);
+        projecteur.noStroke();
+        shape.addChild(projecteur);    
+            
+    } else {
+        shape.removeChild(shape.getChildCount() - 1);
     }
-
-  void mettreAJour() {
-        if (estDeroulee && hauteurActuelle < hauteur) {
-            hauteurActuelle += 5; // Ajustez la vitesse de déroulement ici
-            if (hauteurActuelle > hauteur) {
-                hauteurActuelle = hauteur;
-            }
-        } else if (!estDeroulee && hauteurActuelle > 0) {
-            hauteurActuelle -= 5; // Ajustez la vitesse de fermeture ici
-            if (hauteurActuelle < 0) {
-                hauteurActuelle = 0;
-            }
-        }
-        // mettreAJourToile();
-    }
-
-
-  void derouler() {
-    estDeroulee = true;
-  }
-
-  void refermer() {
-    estDeroulee = false;
   }
 
   void dessiner() {

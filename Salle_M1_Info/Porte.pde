@@ -1,79 +1,96 @@
 class Porte extends QShape {
-  final float LARGEUR_PORTE = 350;
-  final float HAUTEUR_PORTE = 650;
-  final float EPAISSEUR_PORTE = 10;
-  
+    final float LARGEUR_PORTE = 350;
+    final float HAUTEUR_PORTE = 650;
+    final float EPAISSEUR_PORTE = 10;
 
-  Porte(float x, float y, float z) {
-    super(x, y, z);
-  }
+    boolean estOuverte = false; // État initial de la porte
+    float angleActuel = 0; // Angle de rotation actuel
+    final float angleOuverture = HALF_PI; // Angle d'ouverture
+    final float angleFermeture = 0; // Angle de fermeture
+    final float vitesseRotation = 0.05; // Vitesse de rotation
 
-  void creerPorte(PImage texturePorte, color couleurCadre, color couleurClanche, boolean isLaterale) {
-    shape = createShape(GROUP);
+    PShape panneauPorte; 
+    PShape cadre; 
 
-    // Partie principale de la porte
-    PShape panneauPorte = createShape(BOX, LARGEUR_PORTE, HAUTEUR_PORTE, EPAISSEUR_PORTE);
-    panneauPorte.setTexture(texturePorte);
-    panneauPorte.setFill(color(255)); // Si la texture ne charge pas
-    panneauPorte.setStroke(false);
-
-    // Ajustement pour le point de rotation
-    if (isLaterale) {
-        panneauPorte.translate(-LARGEUR_PORTE / 20, 0, 0); // Déplacer le panneau pour aligner le pivot au bord gauche
+    Porte(float x, float y, float z) {
+        super(x, y, z);
     }
 
-    shape.addChild(panneauPorte);
+    void creerPorte(PImage texturePorte, color couleurCadre, color couleurClanche, boolean isLaterale) {
+        shape = createShape(GROUP); // Conteneur principal
 
-    // Cadre droit
-    PShape cadreDroit = createShape(BOX, 5, HAUTEUR_PORTE + 10, 5);
-    cadreDroit.translate((LARGEUR_PORTE / 2) + 2.5f, 0, 0);
-    cadreDroit.setFill(couleurCadre);
-    shape.addChild(cadreDroit);
+        // Créer le cadre fixe de la porte
+        cadre = createShape(GROUP);
 
-    // Cadre gauche
-    PShape cadreGauche = createShape(BOX, 5, HAUTEUR_PORTE + 10, 5);
-    cadreGauche.translate(-(LARGEUR_PORTE / 2) - 2.5f, 0, 0);
-    cadreGauche.setFill(couleurCadre);
-    shape.addChild(cadreGauche);
+        // Cadre droit
+        PShape cadreDroit = createShape(BOX, 5, HAUTEUR_PORTE + 10, 5);
+        cadreDroit.translate((LARGEUR_PORTE / 2) + 2.5f, 0, 0);
+        cadreDroit.setFill(couleurCadre);
+        cadre.addChild(cadreDroit);
 
-    // Cadre haut
-    PShape cadreHaut = createShape(BOX, LARGEUR_PORTE + 10, 5, 5);
-    cadreHaut.translate(0, -(HAUTEUR_PORTE / 2) - 2.5f, 0);
-    cadreHaut.setFill(couleurCadre);
-    shape.addChild(cadreHaut);
+        // Cadre gauche
+        PShape cadreGauche = createShape(BOX, 5, HAUTEUR_PORTE + 10, 5);
+        cadreGauche.translate(-(LARGEUR_PORTE / 2) - 2.5f, 0, 0);
+        cadreGauche.setFill(couleurCadre);
+        cadre.addChild(cadreGauche);
 
-    // Clanche (poignée)
-    PShape clanche = createShape(BOX, 10, 2, 20);
-    if (isLaterale) {
-        clanche.translate((LARGEUR_PORTE / 2) + 10, -50, -(EPAISSEUR_PORTE / 2) - 5);
-    } else {
-        clanche.translate((LARGEUR_PORTE / 2) - 10, -50, (EPAISSEUR_PORTE / 2) + 5);
-    }
-    clanche.setFill(couleurClanche);
-    shape.addChild(clanche);
+        // Cadre haut
+        PShape cadreHaut = createShape(BOX, LARGEUR_PORTE + 10, 5, 5);
+        cadreHaut.translate(0, -(HAUTEUR_PORTE / 2) - 2.5f, 0);
+        cadreHaut.setFill(couleurCadre);
+        cadre.addChild(cadreHaut);
 
-    // Si porte latérale, appliquer une rotation initiale
-    if (isLaterale) {
-        shape.rotateY(HALF_PI);
-    }
-}
+        // Ajouter le cadre fixe au conteneur principal
+        shape.addChild(cadre);
 
-  void dessine() {
-    shape(shape);
-  }
+        // Créer le panneau de la porte 
+        panneauPorte = createShape(BOX, LARGEUR_PORTE, HAUTEUR_PORTE, EPAISSEUR_PORTE);
+        panneauPorte.setTexture(texturePorte);
+        panneauPorte.setFill(color(255)); // Si la texture ne charge pas
+        panneauPorte.setStroke(false);
 
-
-float rotationY = 0;
-
-void ouvrir() {
-    if (shape != null) {
-        if (rotationY < HALF_PI) {
-            shape.rotateY(QUARTER_PI);
-            rotationY += QUARTER_PI;
+        // Ajuster pour le pivot si c'est une porte latérale
+        if (isLaterale) {
+            panneauPorte.translate(0, 0, -EPAISSEUR_PORTE / 2);
+            cadre.translate(0, 0, -EPAISSEUR_PORTE / 2);
+            cadre.rotateY(HALF_PI);
+            panneauPorte.rotateY(HALF_PI);
         }
+        
+        // Ajouter le panneau de la porte au conteneur principal
+        shape.addChild(panneauPorte);
     }
-}
 
+    void ouvrirFermerPorte() {
+      new Thread(() -> {
+        float angleCible = estOuverte ? angleFermeture : angleOuverture;
+     
+        while (angleActuel != angleCible) {
+          if (estOuverte) {
+            angleActuel = max(angleActuel - vitesseRotation, angleCible);
+            appliquerCouleurMur(true);
+          } else {
+            angleActuel = min(angleActuel + vitesseRotation, angleCible);
+            appliquerCouleurMur(false);
+          }
+          panneauPorte.rotateY(angleActuel - angleCible);
+          delay(10);
+        }
+        estOuverte = !estOuverte;
+      }).start();
+      
+    }
 
+    
+    void appliquerCouleurMur(boolean appliquer) {
+        if (appliquer) {
+            cadre.setFill(color(255, 0, 0));
+        } else {
+            cadre.setFill(color(255));
+        } 
+    }
 
+    void dessine() {
+        shape(shape);
+    }
 }
