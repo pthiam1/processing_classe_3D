@@ -27,6 +27,12 @@ Le projet s'inscrit dans le cadre du Master Informatique M1 à l'Université du 
 
 ![alt text](M1_1.png) ![alt text](M2.png)
 
-## **
+## **Quelques fonctionnalités**
+- **Rotation de la caméra** : vous pouvez faire pivoter la caméra autour de la salle de classe en utilisant la souris.
+- **Zoom avant/arrière** : vous pouvez zoomer sur la salle de classe en utilisant la molette de la souris.
+- **Ouverture/fermeture des portes** : vous pouvez ouvrir et fermer les portes de la salle de classe en appuyant sur la touche "O".
+- **Allumage/extinction des lumières** : vous pouvez allumer et éteindre les lumières de la salle de classe en appuyant sur la touche "L".
+- **Ouverture/fermeture des coffres ordinateurs** : vous pouvez ouvrir et fermer les coffres des ordinateurs en appuyant sur la touche "C".
+- **Activation/désactivation du vidéoprojecteur** : vous pouvez activer et désactiver le vidéoprojecteur en appuyant sur la touche "P".
 ## **Auteurs**
 - [THIAM PAPA](https://www.linkedin.com/in/papa-thiam-b914991b7/)
