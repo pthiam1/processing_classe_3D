@@ -9,7 +9,6 @@
  * @version : 1.0
  */
 
-// PShape sol, mur1, mur2, mur3, mur4, plafond, porte, fenetre, tableau, chaise, bureau, ordinateur, lampe, detecteur, bigSmartScreen, projecteur, hautParleur;
 
 float camX = 0;
 float camY = 0;
@@ -31,13 +30,20 @@ ArrayList<QShape> formes = new ArrayList<QShape>();
 
 PImage murTexture, plafondTexture, solTexture;
 
+boolean lumiereAllumee = false;
+PShader shader;
+
 
 
 void setup() {
-  // fullScreen(P3D);
+  fullScreen(P3D);
   background(255);
-  size(1000, 800, P3D);
-  PShader colorShader = loadShader("resources/LightShaderTexFrag.glsl", "resources/LightShaderTexVert.glsl");
+  // size(1000, 800, P3D);
+  
+  // Charger le shader
+
+  shader = loadShader("resources/LightShaderTexFrag.glsl", "resources/LightShaderTexVert.glsl");
+  shader.set("lightOn", lumiereAllumee);
 
   // Charger les textures
   murTexture = loadImage("resources/white.jpg");
@@ -117,6 +123,11 @@ void setup() {
   projecteur.creerProjecteur();
   formes.add(projecteur);
 
+  //poteau cote fenetre
+  Poteau poteau = new Poteau(-largeurSalle / 2 + 10, 0 , -profondeurSalle / 2 + 2100 ,15, 120, hauteurSalle);
+  poteau.creerPoteau(murTexture);
+  formes.add(poteau);
+
 
   // Créer  bureau étudiant
   PImage textureBureau = loadImage("resources/whitewood.png");
@@ -135,7 +146,7 @@ void setup() {
   for (int i = 0; i < 4  ; i++) {
     for (int j = 0; j < 3; j++) {
       //pas espace entre les bureaux
-      float x = -largeurSalle / 2 + 1800 - i * 400;
+      float x = -largeurSalle / 2 + 1900 - i * 400;
       float y = -hauteurSalle / 2 + 550;
       float z = -profondeurSalle / 2 + 1000 + j * 600;
       BureauEtudiant bureauEtudiant = new BureauEtudiant(x, y, z);
@@ -162,7 +173,12 @@ void draw() {
 
   bougerCamera();
   camera(camX, camY, camZ, 0, 0, 0, 0, 1, 0);
-  
+
+  lights();
+
+  // Appliquer le shader
+  shader.set("lightOn", lumiereAllumee);
+  shader(shader);
 
   // Afficher toutes les formes
   for (QShape forme : formes) {
@@ -171,6 +187,9 @@ void draw() {
     forme.drawShape();
     popMatrix();
   }
+
+  resetShader();
+
 }
 
 
@@ -216,6 +235,11 @@ void keyPressed() {
         toileProjecteur.allumerEteindreProjecteur();
       }
     }
+  }
+
+  // Allumer ou éteindre la lumière de la salle
+  if (key == 'l' || key == 'L') {
+    lumiereAllumee = !lumiereAllumee;
   }
 }
 
