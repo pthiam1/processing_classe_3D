@@ -30,20 +30,37 @@ ArrayList<QShape> formes = new ArrayList<QShape>();
 
 PImage murTexture, plafondTexture, solTexture;
 
+// Déclaration des variables pour les lumières
+PVector[] positionsLumieres = new PVector[4];
+color[] couleursLumieres = new color[4];
+boolean[] lumieresAllumees = {false, false, false, false}; // État des lumières
+
 boolean lumiereAllumee = false;
 PShader shader;
 
 
 
 void setup() {
-  fullScreen(P3D);
-  background(255);
-  // size(1000, 800, P3D);
+  // fullScreen(P3D);
+  background(color(255));
+  size(1000, 800, P3D);
   
   // Charger le shader
 
   shader = loadShader("resources/LightShaderTexFrag.glsl", "resources/LightShaderTexVert.glsl");
   shader.set("lightOn", lumiereAllumee);
+
+  // Définir les positions des lumières au plafond
+  positionsLumieres[0] = new PVector(-largeurSalle / 4, hauteurSalle / 2 - 10, -profondeurSalle / 4);
+  positionsLumieres[1] = new PVector(largeurSalle / 4, hauteurSalle / 2 - 10, -profondeurSalle / 4);
+  positionsLumieres[2] = new PVector(-largeurSalle / 4, hauteurSalle / 2 - 10, profondeurSalle / 4);
+  positionsLumieres[3] = new PVector(largeurSalle / 4, hauteurSalle / 2 - 10, profondeurSalle / 4);
+  
+  // Définir les couleurs des lumières
+  couleursLumieres[0] = color(255, 0, 0); // Rouge
+  couleursLumieres[1] = color(0, 255, 0); // Vert
+  couleursLumieres[2] = color(0, 0, 255); // Bleu
+  couleursLumieres[3] = color(255, 255, 0); // Jaune
 
   // Charger les textures
   murTexture = loadImage("resources/white.jpg");
@@ -73,7 +90,7 @@ void setup() {
   porteArriere.creerPorte(porteTexture, color(0, 0, 255), color(255, 255, 0) , false);
   formes.add(porteArriere);
  
-//porte droite
+  //porte droite
   Porte porteDroite = new Porte(largeurSalle / 2 , -(hauteurSalle / 2 - 450), -profondeurSalle / 2 + 550);
   porteDroite.creerPorte(porteTexture, color(0, 0, 255), color(255, 255, 0), true);
   formes.add(porteDroite);
@@ -90,7 +107,7 @@ void setup() {
   // Fenêtre sur le mur gauche
   PImage fenetreTexture = loadImage("resources/fenetre.jpg");
   Fenetre fenetre = new Fenetre(-largeurSalle / 2 + 0.1f, hauteurSalle / 2 - 500, -1000); 
-  fenetre.creerFenetre(2500, 500, 5, fenetreTexture);
+  fenetre.creerFenetre(2500, 500, 50, fenetreTexture);
   fenetre.positionnerFenetre(-largeurSalle / 2, hauteurSalle / 2 - 400, 0);
   formes.add(fenetre);
   
@@ -107,7 +124,21 @@ void setup() {
   radiateur2.positionnerRadiateur(-largeurSalle / 2 + 900, -hauteurSalle / 2 + 400, 0);
   formes.add(radiateur2);
 
+  // Charger la texture du rideau
+  PImage textureRideau = loadImage("resources/rideau.png");
 
+  // Créer les rideaux
+  Rideau rideauGauche = new Rideau(-largeurSalle / 2 + 0.1f, hauteurSalle / 2 - 250, -1000, 500, 500, textureRideau, true);
+  rideauGauche.creerRideau();
+  rideauGauche.tourner(PI / 2);
+  formes.add(rideauGauche);
+
+  Rideau rideauDroite = new Rideau(-largeurSalle / 2 + 0.1f, hauteurSalle / 2 - 250, 1000, 500, 500, textureRideau, false);
+  rideauDroite.creerRideau();
+  rideauDroite.tourner(PI / 2);
+  formes.add(rideauDroite);
+  
+  
   // Charger les textures
    PImage toileTexture = loadImage("resources/toile.png");
 
@@ -176,6 +207,14 @@ void draw() {
 
   lights();
 
+
+  // Activer les lumières colorées allumées
+  for (int i = 0; i < positionsLumieres.length; i++) {
+      if (lumieresAllumees[i]) {
+          pointLight(red(couleursLumieres[i]), green(couleursLumieres[i]), blue(couleursLumieres[i]), 
+                     positionsLumieres[i].x, positionsLumieres[i].y, positionsLumieres[i].z);
+      }
+  }
   // Appliquer le shader
   shader.set("lightOn", lumiereAllumee);
   shader(shader);
@@ -240,6 +279,26 @@ void keyPressed() {
   // Allumer ou éteindre la lumière de la salle
   if (key == 'l' || key == 'L') {
     lumiereAllumee = !lumiereAllumee;
+  }
+
+  // Ouvrir ou fermer les rideaux
+  if (key == 'r' || key == 'R') {
+    for (QShape forme : formes) {
+      if (forme instanceof Rideau) {
+        ((Rideau) forme).toggle();
+      }
+    }
+  }
+  
+  // Allumer ou éteindre les lumières colorées
+  if (key == '1') {
+    lumieresAllumees[0] = !lumieresAllumees[0];
+  } else if (key == '2') {
+    lumieresAllumees[1] = !lumieresAllumees[1];
+  } else if (key == '3') {
+    lumieresAllumees[2] = !lumieresAllumees[2];
+  } else if (key == '4') {
+    lumieresAllumees[3] = !lumieresAllumees[3];
   }
 }
 

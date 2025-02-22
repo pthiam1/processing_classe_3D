@@ -19,6 +19,14 @@ class Poteau extends QShape {
     poteau.setTexture(textureMur);
   }
 
+  void rotateY(float angle) {
+    poteau.rotateY(angle);
+  }
+
+  void translate(float x, float y, float z) {
+    poteau.translate(x, y, z);
+  }
+  
   @Override
   void drawShape() {
     shape(poteau);

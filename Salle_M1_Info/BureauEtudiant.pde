@@ -39,6 +39,8 @@ class BureauEtudiant extends QShape {
         plateau.translate(0, -epaisseurPlateau / 2, 0);
         bureau.addChild(plateau);
 
+        
+
         // Ajouter les pieds du bureau
         float piedLargeur = 20; // Largeur des pieds en mm
         float piedProfondeur = 20; // Profondeur des pieds en mm
@@ -85,6 +87,8 @@ class BureauEtudiant extends QShape {
         uniteCentrale.translate(ucHauteur , -tiroirHauteur / 2 + ucHauteur *2 , tiroirProfondeur + 20);
         bureau.addChild(uniteCentrale);
 
+    
+
         float coffreLargeur = largeur / 2;
         float coffreHauteur = 10;
         float coffreProfondeur = profondeur / 3;
@@ -97,6 +101,7 @@ class BureauEtudiant extends QShape {
         poignee.translate(0, 100, coffreProfondeur / 2 + 5);
         bureau.addChild(poignee);
 
+     
         //ajouter clavier
         float clavierLargeur = 200;
         float clavierHauteur = 15;
@@ -138,14 +143,18 @@ class BureauEtudiant extends QShape {
         coffre.translate(0, -hauteur / 2, profondeur / 2 - coffreProfondeur - 50);
         bureau.addChild(coffre);
     
+        // Ajouter carré noir meme dimension que le coffre et poser sur le plateau
+        PShape carre = createShape(BOX, coffreLargeur + 10, coffreHauteur, coffreProfondeur + 10);
+        carre.setFill(color(0));
+        carre.setStroke(false);
+        carre.translate(0, -coffreHauteur, profondeur / 2 - coffreProfondeur - 50);
+        bureau.addChild(carre);
 
         // Créer la chaise
         creerChaise(textureChaise, chaiseCadre);
 
         shape = bureau;
         
-
-
     }
 
     void creerChaise(PImage textureChaise, color cadreCouleur) {

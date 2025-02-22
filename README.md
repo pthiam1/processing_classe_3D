@@ -14,8 +14,9 @@ Le projet s'inscrit dans le cadre du Master Informatique M1 à l'Université du 
 - Visualisation et animation 3D
 
 ## **Technologies**
-- Processing
-- Java
+- Processing (https://processing.org/)
+- Java (Processing est basé sur Java)
+- Glsl (OpenGL Shading Language)
 
 ## **Installation**
 - Télécharger et installer Processing sur le site officiel : https://processing.org/download/
@@ -47,7 +48,9 @@ Le projet s'inscrit dans le cadre du Master Informatique M1 à l'Université du 
 - **Allumage/extinction des lumières** : vous pouvez allumer et éteindre les lumières de la salle de classe en appuyant sur la touche "L".
 - **Ouverture/fermeture des coffres ordinateurs** : vous pouvez ouvrir et fermer les coffres des ordinateurs en appuyant sur la touche "C".
 - **Activation/désactivation du vidéoprojecteur** : vous pouvez activer et désactiver le vidéoprojecteur en appuyant sur la touche "P" qui affiche une image sur le tableau.
-- **Allumage/extinction de la lumière de la salle** : Ici un shader est utilisé pour simuler l'allumage et l'extinction de la lumière de la salle. Vous pouvez activer et désactiver la lumière de la salle en appuyant sur la touche "L".
+- **Allumage/extinction de la lumière de la salle** : Ici un shader est utilisé pour simuler l'allumage et l'extinction de la lumière de la salle. Vous pouvez activer et désactiver la lumière de la salle en appuyant sur la touche "L". 
+- **Gestion des lumières positionnées sur le plafond** : Des lumieres sont positionnées sur le plafond de la salle avec des couleurs différentes. Vous pouvez activer et désactiver ces lumières respectivement en appuyant sur les touches "1", "2", "3", "4".
+- **Rideaux des fenêtres** : vous pouvez ouvrir et fermer les rideaux des fenêtres en appuyant sur la touche "R".
 
 ## **Auteurs**
 - [THIAM PAPA](https://www.linkedin.com/in/papa-thiam-b914991b7/)
